@@ -1,20 +1,30 @@
 from flask import Flask, request, render_template
 import simplejson as json
 import os
-
-apiKey = "83cf91c2eefdd485e6fd9a94970053dd"
-customerId = 1
+import ConfigParser
 
 app = Flask(__name__)
 
-url = 'http://api.reimaginebanking.com/customers/{}/accounts?key={}'.format(customerId,apiKey)
+merchants = 'http://api.reimaginebanking.com/merchants/{}/accounts?key={}'.format(customerId,apiKey)
+
+def load_credentials():
+	Config = ConfigParser.ConfigParser()
+    Config.read(os.path.join(os.path.dirname(__file__), './config/config.ini'))
+    creds = []
+    creds.append(Config.get('API_Keys', 'capital_one_key'))
+    creds.append(Config.get('API_Keys', 'yelp_key'))
+    return creds
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+	return render_template('index.html')
 
 @app.route('/api')
 def get_restaurants():
+	creds = load_credentials()
+	cone_key = creds[0]
+	yelp_key = creds[1]
+	
 	return "test"
 
 if __name__ == '__main__':
