@@ -38,19 +38,21 @@ def is_restaurant(street, city):
 def get_restaurants(lat, lng, price):
     ret = {}
     params = {
-        'term': 'food',
+        'term': 'restaurant',
         }
-    data = client.search_by_coordinates(lat , lng, **params)#Hardcoding to the northern hemisphere
+    data = client.search_by_coordinates(lat , lng, **params)#Hardcoding toh# the northern hemisphere
     #Testing here.
     for x in data.businesses:
-        if get_price(x.url) == price:
-            print "id: " + x.id.encode('utf-8')
-            id = x.id.encode('utf-8')
-            ret[id] = {}
-            ret[id]['image_url'] = x.image_url
-            ret[id]['name'] = x.name
-            ret[id]['rating'] = x.rating
-            ret[id]['snippet_text'] = x.snippet_text
+        #if get_price(x.url) == price:
+        print x.categories
+        print "id: " + x.id.encode('utf-8')
+        id = x.id.encode('utf-8')
+        ret[id] = {}
+        ret[id]['m_image_url'] = x.image_url
+        ret[id]['m_name'] = x.name
+        ret[id]['m_rating'] = str(x.rating)
+        ret[id]['m_snippet_text'] = x.snippet_text
+        ret[id]['m_url'] = x.url
     
     return ret
 
@@ -58,7 +60,10 @@ def get_price(url):
     page = requests.get(url)
     tree = html.fromstring(page.content)
     price = tree.xpath('//span[@class="bullet-after"]/span/text()')
-    return len(price[0])
+    if price:
+        return len(price[0])
+    else:
+        return 0
 
 @app.route('/')
 def index():
@@ -105,4 +110,4 @@ def api():
 
 if __name__ == '__main__':
 	app.debug = True
-	app.run(host='0.0.0.0', port=5000)# makes server publicly available
+	app.run(host='0.0.0.0', port=80)# makes server publicly available
