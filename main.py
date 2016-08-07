@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from flask import Flask, request, render_template
 import simplejson as json
 import requests
@@ -33,33 +36,33 @@ def is_restaurant(street, city):
     return False
 
 def get_restaurants(lat, lng, price):
+    ret = {}
     params = {
         'term': 'food',
         }
     data = client.search_by_coordinates(lat , lng, **params)#Hardcoding to the northern hemisphere
     #Testing here.
     for x in data.businesses:
-        print 'https://www.yelp.com/biz/'+str(x.id)
-        if get_price('https://www.yelp.com/biz/'+str(x.id)) == price:
-            print "id "+str(x.id)
-    return True
+        if get_price(x.url) == price:
+            print "id: " + x.id.encode('utf-8')
+            id = x.id.encode('utf-8')
+            ret[id] = {}
+            ret[id]['image_url'] = x.image_url
+            ret[id]['name'] = x.name
+            ret[id]['rating'] = x.rating
+            ret[id]['snippet_text'] = x.snippet_text
+    
+    return ret
+
+def get_price(url):
+    page = requests.get(url)
+    tree = html.fromstring(page.content)
+    price = tree.xpath('//span[@class="bullet-after"]/span/text()')
+    return len(price[0])
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
-def compare(restaurants, price):
-    valid_restaurants = []
-    for restaurant in restaurants:
-        if restaurant['cost'] == price:
-            valid_restaurants.append(restaurant['id'])
-    return valid_restaurants
-
-def get_price(url):
-    page = requests.get('https://www.yelp.com/biz/andrea-salumeria-jersey-city')
-    tree = html.fromstring(page.content)
-    price = tree.xpath('//span[@class="bullet-after"]/span/text()')
-    return len(price)
 
 @app.route('/api')
 def api():
@@ -98,7 +101,7 @@ def api():
 
     nearby_food = get_restaurants(lat,lng, price)
     
-    return json.dumps(valid_merchant_ids)
+    return json.dumps(nearby_food)
 
 if __name__ == '__main__':
 	app.debug = True
