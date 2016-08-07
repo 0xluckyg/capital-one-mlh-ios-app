@@ -1,45 +1,46 @@
 from flask import Flask, request, render_template
 import simplejson as json
-import os
-import ConfigParser
 import requests
+from creds import load_credentials
 from yelp.client import Client
 from yelp.oauth1_authenticator import Oauth1Authenticator
 from lxml import html
 
 app = Flask(__name__)
 
+creds = load_credentials()
+
+auth = Oauth1Authenticator(
+    consumer_key=creds[1],
+    consumer_secret=creds[2],
+    token=creds[3],
+    token_secret=creds[4])
+client = Client(auth)
+
 merchants = 'http://api.reimaginebanking.com/merchants/'
 purchases = 'http://api.reimaginebanking.com/accounts/57a6bd19bc727e4b519f20a6/purchases?key='
- 
-def load_credentials():
-    Config = ConfigParser.ConfigParser()
-    Config.read(os.path.join(os.path.dirname(__file__), './config/config.ini'))
-    creds = []
-    creds.append(Config.get('API_Keys', 'capital_one_key'))
-    creds.append(Config.get('API_Keys', 'Consumer_Key'))
-    creds.append(Config.get('API_Keys', 'Consumer_Secret'))
-    creds.append(Config.get('API_Keys', 'Token'))
-    creds.append(Config.get('API_Keys', 'Token_Secret'))
-    return creds
 
-def is_restaurant(street, city, key, skey, tok, stok):
-    auth = Oauth1Authenticator(
-    consumer_key=key,
-    consumer_secret=skey,
-    token=tok,
-    token_secret=stok
-    )
-    client = Client(auth)
+
+def is_restaurant(street, city):
     params = {
-        'location.address':street,
-        'term': 'food'
+        'term': 'food',
+        'location.address':street
     }
     data = client.search(city, **params)
     for x in data.businesses:
         if street == x.location.address[0]:
             return True
     return False
+
+def get_restaurants(lat, lng):
+    params = {
+        'term': 'food',
+        }
+    data = client.search_by_coordinates(lat, lng, **params)
+    #Testing here.
+    for x in data.businesses:
+        print x.id
+    return True
 
 @app.route('/')
 def index():
@@ -59,11 +60,11 @@ def get_price(url):
     return len(price)
 
 @app.route('/api')
-def get_restaurants():
+def api():
     lat = request.args.get('lat')
     lng = request.args.get('lng')
     valid_merchant_ids = {}
-    creds = load_credentials()
+    average = 0.0
     cone_key = creds[0]
     responses = requests.get(purchases+cone_key).json()
     for x in responses:
@@ -72,9 +73,15 @@ def get_restaurants():
         print data
         street = data['address']['street_number'] + " " + data['address']['street_name']
         city = data['address']['city']
-        if is_restaurant(street, city, creds[1], creds[2], creds[3], creds[4]):
+        if is_restaurant(street, city):
             valid_merchant_ids[merchant_id] = x['amount']
-    print valid_merchant_ids
+
+    for x in valid_merchant_ids:
+        average += valid_merchant_ids[x]
+    average /= len(valid_merchant_ids)
+
+    nearby_food = get_restaurants(lat,lng)
+    
     return json.dumps(valid_merchant_ids)
 
 if __name__ == '__main__':
