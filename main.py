@@ -32,14 +32,16 @@ def is_restaurant(street, city):
             return True
     return False
 
-def get_restaurants(lat, lng):
+def get_restaurants(lat, lng, price):
     params = {
         'term': 'food',
         }
-    data = client.search_by_coordinates(lat, lng, **params)
+    data = client.search_by_coordinates(lat , lng, **params)#Hardcoding to the northern hemisphere
     #Testing here.
     for x in data.businesses:
-        print x.id
+        print 'https://www.yelp.com/biz/'+str(x.id)
+        if get_price('https://www.yelp.com/biz/'+str(x.id)) == price:
+            print "id "+str(x.id)
     return True
 
 @app.route('/')
@@ -63,6 +65,8 @@ def get_price(url):
 def api():
     lat = request.args.get('lat')
     lng = request.args.get('lng')
+    print lat
+    print lng
     valid_merchant_ids = {}
     average = 0.0
     cone_key = creds[0]
@@ -70,7 +74,7 @@ def api():
     for x in responses:
         merchant_id = x['merchant_id']
         data = requests.get(merchants+merchant_id+'/?key='+cone_key).json()
-        print data
+        print "data" + str(data)
         street = data['address']['street_number'] + " " + data['address']['street_name']
         city = data['address']['city']
         if is_restaurant(street, city):
@@ -79,8 +83,20 @@ def api():
     for x in valid_merchant_ids:
         average += valid_merchant_ids[x]
     average /= len(valid_merchant_ids)
+    price = 0
 
-    nearby_food = get_restaurants(lat,lng)
+    print "average"+str(average)
+
+    if average < 10:
+        price = 1
+    elif average < 30:
+        price = 2
+    elif average < 50:
+        price = 3
+    else:
+        price = 4
+
+    nearby_food = get_restaurants(lat,lng, price)
     
     return json.dumps(valid_merchant_ids)
 
