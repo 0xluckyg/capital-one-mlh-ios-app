@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="NU1-Xf-ep5">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Login-->
+        <scene sceneID="weX-di-pPg">
+            <objects>
+                <viewController storyboardIdentifier="Login" title="Login" useStoryboardIdentifierAsRestorationIdentifier="YES" id="NU1-Xf-ep5" customClass="Login" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ejz-Id-LTw"/>
+                        <viewControllerLayoutGuide type="bottom" id="I8t-3R-7dy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kBB-dQ-mnO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hAt-H4-n6d">
+                                <rect key="frame" x="52" y="457" width="310" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="2GD-RL-O9i"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                <connections>
+                                    <outlet property="delegate" destination="NU1-Xf-ep5" id="JEW-bT-dKT"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Password" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jFJ-1W-BtI">
+                                <rect key="frame" x="52" y="517" width="310" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="H9D-Re-BtF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="NU1-Xf-ep5" id="O4a-bi-nrM"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Bq-UW-B9v">
+                                <rect key="frame" x="52" y="587" width="310" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="5dD-ED-fhn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="loginButtonAction:" destination="NU1-Xf-ep5" eventType="touchUpInside" id="4Ft-TF-pf0"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gZf-uv-DBk">
+                                <rect key="frame" x="157" y="292" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="me0-9C-Jhy"/>
+                                    <constraint firstAttribute="height" constant="100" id="sbV-gk-Rnh"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="gZf-uv-DBk" secondAttribute="trailing" constant="157" id="1Or-7V-1TE"/>
+                            <constraint firstItem="jFJ-1W-BtI" firstAttribute="leading" secondItem="kBB-dQ-mnO" secondAttribute="leading" constant="52" id="9CO-fQ-p6p"/>
+                            <constraint firstItem="I8t-3R-7dy" firstAttribute="top" secondItem="4Bq-UW-B9v" secondAttribute="bottom" constant="109" id="Dw9-92-2Wj"/>
+                            <constraint firstAttribute="trailing" secondItem="jFJ-1W-BtI" secondAttribute="trailing" constant="52" id="Edb-FW-Jlh"/>
+                            <constraint firstItem="4Bq-UW-B9v" firstAttribute="leading" secondItem="kBB-dQ-mnO" secondAttribute="leading" constant="52" id="FDK-On-YDG"/>
+                            <constraint firstAttribute="trailing" secondItem="jFJ-1W-BtI" secondAttribute="trailing" constant="52" id="Il6-y9-eBC"/>
+                            <constraint firstItem="hAt-H4-n6d" firstAttribute="top" secondItem="gZf-uv-DBk" secondAttribute="bottom" constant="65" id="Svg-YD-6vb"/>
+                            <constraint firstItem="jFJ-1W-BtI" firstAttribute="leading" secondItem="kBB-dQ-mnO" secondAttribute="leading" constant="52" id="W2L-ZV-TL7"/>
+                            <constraint firstAttribute="trailing" secondItem="4Bq-UW-B9v" secondAttribute="trailing" constant="52" id="X0O-UH-Cza"/>
+                            <constraint firstItem="hAt-H4-n6d" firstAttribute="leading" secondItem="kBB-dQ-mnO" secondAttribute="leading" constant="52" id="c8l-VR-MCc"/>
+                            <constraint firstItem="hAt-H4-n6d" firstAttribute="leading" secondItem="kBB-dQ-mnO" secondAttribute="leading" constant="52" id="d1j-mP-dep"/>
+                            <constraint firstItem="4Bq-UW-B9v" firstAttribute="top" secondItem="jFJ-1W-BtI" secondAttribute="bottom" constant="43" id="gMj-BI-jPh"/>
+                            <constraint firstAttribute="trailing" secondItem="hAt-H4-n6d" secondAttribute="trailing" constant="52" id="ivx-bM-c2Z"/>
+                            <constraint firstItem="gZf-uv-DBk" firstAttribute="leading" secondItem="kBB-dQ-mnO" secondAttribute="leading" constant="157" id="q4o-5R-XtU"/>
+                            <constraint firstAttribute="trailing" secondItem="hAt-H4-n6d" secondAttribute="trailing" constant="52" id="tU2-yK-a8p"/>
+                            <constraint firstItem="jFJ-1W-BtI" firstAttribute="top" secondItem="hAt-H4-n6d" secondAttribute="bottom" constant="20" id="whm-zn-HSL"/>
+                            <constraint firstItem="jFJ-1W-BtI" firstAttribute="top" secondItem="hAt-H4-n6d" secondAttribute="bottom" constant="20" id="wiZ-9R-LBb"/>
+                            <constraint firstItem="4Bq-UW-B9v" firstAttribute="top" secondItem="jFJ-1W-BtI" secondAttribute="bottom" constant="30" id="wyX-eb-acS"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="c8l-VR-MCc"/>
+                                <exclude reference="ivx-bM-c2Z"/>
+                                <exclude reference="9CO-fQ-p6p"/>
+                                <exclude reference="Il6-y9-eBC"/>
+                                <exclude reference="whm-zn-HSL"/>
+                                <exclude reference="gMj-BI-jPh"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="idTextField" destination="hAt-H4-n6d" id="mre-rg-sUx"/>
+                        <outlet property="loginButtonOutlet" destination="4Bq-UW-B9v" id="o1K-Zp-QrQ"/>
+                        <outlet property="logoImage" destination="gZf-uv-DBk" id="vci-GS-j3a"/>
+                        <outlet property="passwordTextField" destination="jFJ-1W-BtI" id="Gc2-by-Ed6"/>
+                        <segue destination="RfH-58-G4Y" kind="show" identifier="menuSegue" id="JQI-7y-hae"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xm1-gj-NaY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="629" y="440"/>
+        </scene>
+        <!--Menu-->
+        <scene sceneID="uLk-MP-F0k">
+            <objects>
+                <viewControllerPlaceholder storyboardIdentifier="Menu" storyboardName="Menu" referencedIdentifier="Menu" id="RfH-58-G4Y" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ye0-q7-8SU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="943.5" y="86"/>
+        </scene>
+    </scenes>
+</document>
