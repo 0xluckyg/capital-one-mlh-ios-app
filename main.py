@@ -5,6 +5,7 @@ import ConfigParser
 import requests
 from yelp.client import Client
 from yelp.oauth1_authenticator import Oauth1Authenticator
+from lxml import html
 
 app = Flask(__name__)
 
@@ -43,6 +44,19 @@ def is_restaurant(street, city, key, skey, tok, stok):
 @app.route('/')
 def index():
     return render_template('index.html')
+
+def compare(restaurants, price):
+    valid_restaurants = []
+    for restaurant in restaurants:
+        if restaurant['cost'] == price:
+            valid_restaurants.append(restaurant['id'])
+    return valid_restaurants
+
+def get_price(url):
+    page = requests.get('https://www.yelp.com/biz/andrea-salumeria-jersey-city')
+    tree = html.fromstring(page.content)
+    price = tree.xpath('//span[@class="bullet-after"]/span/text()')
+    return len(price)
 
 @app.route('/api')
 def get_restaurants():
